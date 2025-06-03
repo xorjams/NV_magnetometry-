@@ -1,0 +1,63 @@
+Import stuff
+
+laser_pulse_duration = 5
+
+Resonance = 2.87
+Drive = True
+
+
+Def runBSE(tau, omega, omega_drive)
+
+  nv.initialize()
+
+
+  pulse.apply(pulse_type = pi/2)
+
+
+  pulse.wait(duration = tau/2)
+
+
+  pulse.apply(pulse_type = pi)
+
+  if omega_drive = true:
+    apply off resonant driving
+
+  pulse.wait(duration = tau/2)
+
+
+  pulse.apply(pulse_type = pi)
+
+  pulse.wait(duration = tau/2)
+
+
+  pulse.apply(pulse_type = pi/2)
+
+  return nv.measure(fluorescence)
+
+
+
+import numpy as np
+
+import matplotlib.pyplot as plt
+
+taus = np.linspace(0.1e-6, 10e-6, 100)
+signal = []
+signal_nodriving = []
+
+
+for tau in taus:
+
+  s1 = runBSE(tau, omega, drive = True)
+  s2 = runBSE(tau, omega, drive = False)
+  signal.append(s1)
+  signal_nodriving.append(s2)
+
+plt.plot(taus , signal, label='With Bloch-Siegert')
+
+plt.xlabel("τ (μs)")
+plt.ylabel("Fluorescence signal")
+plt.title("NV Magnetometry with Bloch-Siegert Shift")
+plt.legend()
+plt.show()
+
+
