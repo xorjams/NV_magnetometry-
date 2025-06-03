@@ -60,4 +60,7 @@ plt.title("NV Magnetometry with Bloch-Siegert Shift")
 plt.legend()
 plt.show()
 
+fit plot to 1/2(1+cos(omega*t) to find omega
+
+
 
