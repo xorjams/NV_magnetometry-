@@ -1,0 +1,57 @@
+#include <spinapi.h>
+#define CLOCK_FREQ 100.0  // MHz, adjust based on your board
+
+// Define channel bitmasks
+#define LASER 0x1
+#define MW    0x2
+#define BS    0x4
+
+// Pulse durations (us)
+#define PI2_LEN  100
+#define PI_LEN   200
+#define TAU      1000  // adjust as needed
+#define READ_LEN 300
+
+int main() {
+    pb_select_board(0);
+    pb_core_clock(CLOCK_FREQ);
+
+    pb_start_programming(PULSE_PROGRAM);
+
+    // Initialization pulse (laser)
+    pb_inst_pbonly(LASER, CONTINUE, 1000.0 * CLOCK_FREQ); // 1 ms init
+
+    // π/2 pulse
+    pb_inst_pbonly(MW, CONTINUE, PI2_LEN * CLOCK_FREQ);
+
+    // τ/2 free evolution
+    pb_inst_pbonly(0x0, CONTINUE, (TAU / 2) * CLOCK_FREQ);
+
+    // π pulse
+    pb_inst_pbonly(MW, CONTINUE, PI_LEN * CLOCK_FREQ);
+
+    // τ with Bloch-Siegert field ON
+    pb_inst_pbonly(BS, CONTINUE, TAU * CLOCK_FREQ);
+
+    // Second π pulse
+    pb_inst_pbonly(MW, CONTINUE, PI_LEN * CLOCK_FREQ);
+
+    // τ/2 free evolution
+    pb_inst_pbonly(0x0, CONTINUE, (TAU / 2) * CLOCK_FREQ);
+
+    // Final π/2 pulse
+    pb_inst_pbonly(MW, CONTINUE, PI2_LEN * CLOCK_FREQ);
+
+    // Readout
+    pb_inst_pbonly(LASER, CONTINUE, READ_LEN * CLOCK_FREQ);
+
+    // End of program
+    pb_inst_pbonly(0x0, STOP, 100.0);  // short delay before looping/stopping
+
+    pb_stop_programming();
+
+    pb_reset();
+    pb_start();
+
+    return 0;
+}
