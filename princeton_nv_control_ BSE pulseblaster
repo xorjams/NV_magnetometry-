@@ -1,0 +1,24 @@
+def pb_bse_params(self):
+    self.params = self.default_params()
+    self.params.update(
+        {'pulsewidth_pi': 56e-9, 'pulsewidth_pi2': 28e-9,  'tau': 100e-9,  'dt': 0,
+         'inv': 0})
+
+
+
+def pb_bse(self):
+  self.add_inst(['mw1'], self.inst_set.CONTINUE, 0, self.params['pulsewidth_pi2'])
+  self.add_inst([''], self.inst_set.CONTINUE, 0, self.params['tau']/2)
+
+  self.add_inst(['mw1'], self.inst_set.CONTINUE, 0, self.params['pulsewidth_pi'])
+  
+  self.add_inst(['bse'], self.inst_set.CONTINUE, 0, self.params['bse'])
+  self.add_inst([''], self.inst_set.CONTINUE, 0, self.params['tau'])
+  
+  self.add_inst(['mw1'], self.inst_set.CONTINUE, 0, self.params['pulsewidth_pi'])
+  
+  self.add_inst([''], self.inst_set.CONTINUE, 0, self.params['tau']/2)
+  self.add_inst(['mw1'], self.inst_set.CONTINUE, 0, self.params['pulsewidth_pi2'])
+
+
+
