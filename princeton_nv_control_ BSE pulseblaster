@@ -12,8 +12,8 @@ def pb_bse(self):
 
   self.add_inst(['mw1'], self.inst_set.CONTINUE, 0, self.params['pulsewidth_pi'])
   
-  self.add_inst(['bse'], self.inst_set.CONTINUE, 0, self.params['bse'])
-  self.add_inst([''], self.inst_set.CONTINUE, 0, self.params['tau'])
+  
+  self.add_inst(['bsedrive'], self.inst_set.CONTINUE, 0, self.params['tau'])
   
   self.add_inst(['mw1'], self.inst_set.CONTINUE, 0, self.params['pulsewidth_pi'])
   
